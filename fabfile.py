@@ -22,15 +22,14 @@ import sparks.fabric.fabfile as tasks
 # import django tasks to hae them handy
 import sparks.django.fabfile as django # NOQA
 
-master       = os.environ['SERVCONF_MASTER_SERVER']
-test_master  = os.environ.get('SERVCONF_TEST_SERVER', master)
-physical     = [master] + os.environ.get('SERVCONF_PHYSICAL_SERVERS', '').split()
+test_server  = os.environ.get('SERVCONF_TEST_SERVER')
+servers     = os.environ.get('SERVCONF_SERVERS', '').split()
 groups       = {}
 
-for key in os.environ.get('SERVCONF_PHYSICAL_SERVERS', '').split():
-    groups[key] = os.environ['SERVCONF_GROUP_' + 'group']
+for key in os.environ.get('SERVCONF_GROUPS', '').split():
+    groups[key] = os.environ['SERVCONF_GROUP_' + key]
 
-all_machines = physical + list(itertools.chain(groups.values())
+all_machines = servers + list(itertools.chain(groups.values())
 
 # Get the already setup Fabric env.
 env = tasks.env
@@ -39,13 +38,13 @@ env = tasks.env
 env.roledefs.update({
     'all-machines': all_machines,
     'all': all_machines,
-    'physical': physical,
+    'servers': servers,
 })
 
 LOCAL_HOME_DIR    = os.environ.get('HOME', os.path.expanduser('~'))
-REMOTE_CONFIG_DIR = os.environ.get('SERVCONF_INSTALL_DIR', '/home/physconf')
+REMOTE_CONFIG_DIR = os.environ.get('SERVCONF_INSTALL_DIR', '/home/servconf')
 MASTER_REPOSITORY = os.environ.get(SERVCONF_BIN_REPOSITORY,
-                                   'git+https://github.com/Karmak23/physconf')
+                                   'git+https://github.com/Karmak23/servconf')
 CONFIG_REPOSITORY = os.environ.get(SERVCONF_DATA_REPOSITORY, None)
 
 
@@ -67,10 +66,10 @@ def test_mail(email_address=None):
 
 
 @task
-def sys_physical_server():
+def sys_setup_server():
 
     tasks.base(upgrade=False)
-    tasks.lxc_server()
+    tasks.lxc_server() # this one will do nothing inside LXCs
     tasks.dev()
 
 
@@ -91,7 +90,7 @@ def update_remote_configuration():
     tasks.sys_admin_pkgs()      # we need setfacl
     tasks.dev_mini()            # and git
 
-    sys_physical_server()
+    sys_setup_server()
 
     # We use run() because sudo('echo $USER')
     # gives 'root' (which is logical…)
@@ -117,7 +116,9 @@ def update_remote_configuration():
         run('git clone {0} {1}'.format(MASTER_REPOSITORY, c_basename))
 
         if CONFIG_REPOSITORY is not None:
-            run('git clone {0} {1}'.format(CONFIG_REPOSITORY, 'private-data'))
+            with cd(c_basename):
+                run('git clone {0} {1}'.format(CONFIG_REPOSITORY,
+                    'private-data'))
 
     with cd(REMOTE_CONFIG_DIR):
         run("make remote_update")
@@ -134,7 +135,7 @@ def global_config_sync(do_test=False):
 
     if do_test:
         # First, test it on gurney, on which I have
-        # physical access if anything goes wrong ;-)
+        # servers access if anything goes wrong ;-)
         test()
     else:
         local('git upa || git up')
@@ -143,7 +144,7 @@ def global_config_sync(do_test=False):
         # Allow to deploy manually on only one host at a time from CLI.
         all_others = [env.host_string]
     else:
-        all_others = physical[:]
+        all_others = servers[:]
 
     if do_test and test_master in all_others:
         all_others.remove(test_master)
