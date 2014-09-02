@@ -22,13 +22,13 @@ import sparks.fabric.fabfile as tasks
 # import django tasks to hae them handy
 import sparks.django.fabfile as django # NOQA
 
-master       = os.environ['PHYSCONF_MASTER_SERVER']
-test_master  = os.environ.get('PHYSCONF_TEST_SERVER', master)
-physical     = [master] + os.environ.get('PHYSCONF_PHYSICAL_SERVERS', '').split()
+master       = os.environ['SERVCONF_MASTER_SERVER']
+test_master  = os.environ.get('SERVCONF_TEST_SERVER', master)
+physical     = [master] + os.environ.get('SERVCONF_PHYSICAL_SERVERS', '').split()
 groups       = {}
 
-for key in os.environ.get('PHYSCONF_PHYSICAL_SERVERS', '').split():
-    groups[key] = os.environ['PHYSCONF_GROUP_' + 'group']
+for key in os.environ.get('SERVCONF_PHYSICAL_SERVERS', '').split():
+    groups[key] = os.environ['SERVCONF_GROUP_' + 'group']
 
 all_machines = physical + list(itertools.chain(groups.values())
 
@@ -43,10 +43,10 @@ env.roledefs.update({
 })
 
 LOCAL_HOME_DIR    = os.environ.get('HOME', os.path.expanduser('~'))
-REMOTE_CONFIG_DIR = os.environ.get('PHYSCONF_INSTALL_DIR', '/home/physconf')
-MASTER_REPOSITORY = os.environ.get(PHYSCONF_BIN_REPOSITORY,
+REMOTE_CONFIG_DIR = os.environ.get('SERVCONF_INSTALL_DIR', '/home/physconf')
+MASTER_REPOSITORY = os.environ.get(SERVCONF_BIN_REPOSITORY,
                                    'git+https://github.com/Karmak23/physconf')
-CONFIG_REPOSITORY = os.environ.get(PHYSCONF_DATA_REPOSITORY, None)
+CONFIG_REPOSITORY = os.environ.get(SERVCONF_DATA_REPOSITORY, None)
 
 
 @task
@@ -78,7 +78,7 @@ def sys_physical_server():
 def update_remote_configuration():
 
     if not exists('Dropbox'):
-        if not os.environ.get('PHYSCONF_DONT_SYNC_SSH', False):
+        if not os.environ.get('SERVCONF_DONT_SYNC_SSH', False):
             local('rsync -aL ~/.ssh/ {0}:.ssh'.format(env.host_string))
 
         local('rsync -aL ~/.bashrc {0}:'.format(env.host_string))
