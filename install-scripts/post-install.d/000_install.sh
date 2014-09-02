@@ -37,7 +37,7 @@ if [[ -d "${MACHINE_PATH}" ]]; then (
         do
             if [[ -e ${SYNC_PATH} ]]; then
                 echo -n "Synching /${PATHNAME} with ${SYNC_PATH}…"
-                rsync -a ${SERVCONF_PATH}/${PATHNAME} ${FINAL}
+                rsync -a ${SYNC_PATH} ${FINAL}
                 echo " done."
             fi
         done
