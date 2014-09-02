@@ -7,9 +7,9 @@
 #
 
 
-if [ -e ${VARIABLES_FILE} ]; then
+if [ -e ${FIREWALL_PATH}/variables ]; then
 
-	. ${VARIABLES_FILE}
+	. ${FIREWALL_PATH}/variables
 
 fi
 
