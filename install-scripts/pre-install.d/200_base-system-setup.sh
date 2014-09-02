@@ -14,19 +14,3 @@ if [[ "${HOSTNAME}" != "`cat /etc/mailname`" ]]; then
     echo ${HOSTNAME} > /etc/mailname
     echo "done."
 fi
-
-# MOVE eveything to /home, this is nearly the only dir we backup
-for DIRECTORY in mongodb postgresql
-do (
-    cd /var/lib
-    if [[ ! -L ${DIRECTORY} ]]; then
-        echo -n "MOVING /var/lib/${DIRECTORY} into home… "
-
-        # XXX stop/start
-
-        mv ${DIRECTORY} /home/
-        ln -sf /home/${DIRECTORY} .
-
-        echo "done."
-    fi
-); done
