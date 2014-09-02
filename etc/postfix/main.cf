@@ -1,0 +1,38 @@
+# Dynamically picked up from `hostname`, cf. postfix documentation.
+#myhostname = /etc/hostname
+myorigin = /etc/mailname
+smtpd_banner = $myhostname ESMTP $mail_name (Ubuntu)
+biff = no
+append_dot_mydomain = no
+#delay_warning_time = 4h
+readme_directory = no
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtp_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtp_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls=yes
+smtp_use_tls=yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtpd_sasl_auth_enable = no
+#smtp_sasl_auth_enable = yes
+#smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtpd_sasl_local_domain = $myhostname
+#smtp_sasl_security_options = noanonymous
+smtp_sasl_security_options =
+smtp_sasl_tls_security_options = noanonymous
+#smtpd_sasl_application_name = smtpd
+#relayhost = [ssl0.ovh.net]:587
+#transport_maps = hash:/etc/postfix/transport
+
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+mydestination = $myhostname,
+ localhost
+mynetworks = $config_directory/mynetworks
+
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+default_transport = error
+relay_transport = error
