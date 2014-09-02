@@ -24,4 +24,12 @@ You need [sparks](https://github.com/1flow/sparks), which will install [my patch
 
 I strongly advise you to have a test machine and run `fab test` on it before; because `servconf` can cut your SSH access if you don't configure it properly.
 
-define `SERVCONF_DEBUG` to anything to get debug messages (there are not many, yet).
+## Variables
+
+### Custom configuration
+
+- `SERVCONF_FIREWALL_DISABLE_LXC_100TO150`: disable the conventional LXC SSH port opening for `10.0.3.100→150:22` to `$MAIN_IP:22100→150`.
+
+### Other
+
+Define `SERVCONF_DEBUG` to any value to get debug messages during execution (there are not many, yet).
