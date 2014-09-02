@@ -29,7 +29,7 @@ groups       = {}
 for key in os.environ.get('SERVCONF_GROUPS', '').split():
     groups[key] = os.environ['SERVCONF_GROUP_' + key]
 
-all_machines = servers + list(itertools.chain(groups.values())
+all_machines = servers + list(itertools.chain(groups.values()))
 
 # Get the already setup Fabric env.
 env = tasks.env
