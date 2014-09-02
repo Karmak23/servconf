@@ -2,7 +2,7 @@
 
 # ============================================================================= *.1flow.net
 
-if [ -f /etc/default/lxc -a -z "${PHYSCONF_FIREWALL_DISABLE_LXC_100TO150}" ]; then
+if [ -f /etc/default/lxc -a -z "${SERVCONF_FIREWALL_DISABLE_LXC_100TO150}" ]; then
 
     # NOTE: IPs/ports only between 100 and 150 here. IPs/ports under 100 are
     # specific to some LXCs on only some physical hosts. Idem for ports > 150.
