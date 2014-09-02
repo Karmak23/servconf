@@ -103,9 +103,9 @@ def update_remote_configuration():
          'chmod g+rwx /home/users /home/backup /home/archives')
     #sudo('setfacl -m g:admins:rwx /home/users /home/backup /home/archives')
 
-    if not exists(REMOTE_CONFIG_DIR):
-        c_dirname, c_basename = REMOTE_CONFIG_DIR.rsplit(os.sep, 1)
+    c_dirname, c_basename = REMOTE_CONFIG_DIR.rsplit(os.sep, 1)
 
+    if not exists(REMOTE_CONFIG_DIR):
         if not exists(c_dirname):
             sudo('mkdir "{0}"'.format(c_dirname))
 
