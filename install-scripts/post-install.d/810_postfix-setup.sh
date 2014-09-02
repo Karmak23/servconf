@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-if has_line etc/postfix ${GLOCONF_PATH}/machines/`hostname`/install; then
+if has_line etc/postfix ${HOST_INSTALL_FILE}; then
 
     # Be sure postfix is installed, sometimes at first install
     # nullmailer gets installed in place of postfix.
