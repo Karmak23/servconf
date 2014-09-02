@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-script="/etc/physconf/iptables/body"
+script="${FIREWALL_PATH}/body"
 
 if [ -e ${script} ]; then
 	echo -n "Running custom ${script}… "

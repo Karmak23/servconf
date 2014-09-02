@@ -8,7 +8,7 @@ SERVCONF_PATH=`dirname ${IPTABLES_ROOT}`
 export HOSTNAME=`hostname`
 export SHORT_HOSTNAME=`hostname -s`
 
-VARIABLES_FILE="${SERVCONF_PATH}/private-data/machines/${HOSTNAME}/firewall"
+FIREWALL_PATH="${SERVCONF_PATH}/private-data/machines/${HOSTNAME}/firewall"
 
 MAIN_IFACE="eth0"
 HOSTNAME=`hostname`
