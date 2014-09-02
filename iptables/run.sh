@@ -30,7 +30,7 @@ if ! `which iptables >/dev/null 2>&1`; then
 	exit 0
 fi
 
-if [[ ${MAIN_IP} == 10.* -o ${MAIN_IP} == 172.16.* -o ${MAIN_IP} == 192.168.* ]]; then
+if [[ ${MAIN_IP} == 10.* || ${MAIN_IP} == 172.16.* || ${MAIN_IP} == 192.168.* ]]; then
 
 	echo "NOT RUNNING the firewall on a private machine."
 	exit 0
