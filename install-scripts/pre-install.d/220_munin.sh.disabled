@@ -1,0 +1,37 @@
+#!/bin/bash -e
+
+#source ${GLOCONF_COMMON}
+
+
+if [[ ! -e /etc/cron.d/munin-node ]]; then
+    apt-add-repository -y ppa:tuxpoldo/munin || true
+    apt-get update -qq --yes --force-yes
+    apt-get install -qq munin-node --yes --force-yes
+fi
+
+if [[ -z "`gem list | grep munin-ruby`" ]]; then
+    sudo gem install munin-ruby
+fi
+
+if [[ -z "`gem list | grep statsd-ruby`" ]]; then
+    sudo gem install statsd-ruby
+fi
+
+SCHEMABASE=munin.`echo ${HOSTNAME} | sed -e s/[-.]/_/g`
+
+if [[ ${HOSTNAME} = "harvest.licorn.org" ]]; then
+    STATSD_HOST=10.0.3.111
+else
+    STATSD_HOST=37.187.88.26
+fi
+
+cat > /etc/cron.d/munin-to-statsd <<EOF
+#
+# cf. https://github.com/Savar/munin-statsd
+#
+
+MAILTO=olive@licorn.org
+
+* * * * * olive SCHEMABASE=${SCHEMABASE} STATSD_HOST=${STATSD_HOST} /usr/local/bin/munin-statsd.rb > /dev/null
+EOF
+

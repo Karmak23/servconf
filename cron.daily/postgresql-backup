@@ -1,0 +1,26 @@
+#!/bin/bash -e
+
+#PRECMD="nice -n 19 ionice -c 3 time"
+
+DB_SAVE_PATH="/home/backup/PostgreSQL"
+
+if [ -x /usr/bin/psql ]; then
+
+	mkdir -p $DB_SAVE_PATH
+	chmod g+rx,o+x `dirname $DB_SAVE_PATH`
+	chown -R postgres: $DB_SAVE_PATH
+
+	# according to http://www.postgresql.org/docs/8.4/static/app-pgdump.html, we
+	# don't need to stop postgresql during backups. Neat.
+	(
+		for BASE in `su - postgres -c 'echo "SELECT datname FROM pg_database;" | psql -A -t' | grep -v template | xargs`
+		do
+			echo -n "Dumping base ${BASE}..."
+			su - postgres -c "pg_dump -F c -b -f ${DB_SAVE_PATH}/save_${BASE}.dump ${BASE}"
+			echo " done."
+		done
+	)
+else
+    echo ">> PostgreSQL client is not installed, aborting PG backup."
+    exit 0
+fi

@@ -1,0 +1,26 @@
+#!/bin/bash -e
+
+CONF="/home/groups/local_config/etc/rdiff-backup/`hostname`"
+
+if [ -f ${CONF} ]; then
+    . ${CONF}
+else
+    echo ">> No Rdiff-backup configuration ${CONF}, aborting."
+    exit 0
+fi
+
+
+
+if [ -x /usr/bin/add ]; then
+    add backup -v
+
+else
+    nice -n 19 ionice -c 3 rdiff-backup \
+    	--include-globbing-filelist /etc/licorn/rdiff-backup-globs.conf \
+    	--include-globbing-filelist /etc/licorn/rdiff-backup-globs.local.conf \
+    	--exclude-sockets --exclude-fifos --exclude-device-files \
+    	--verbosity 2 \
+    	/ "${SAVE_PATH}"
+fi
+
+rdiff-backup -l "${SAVE_PATH}"

@@ -1,0 +1,48 @@
+#!/bin/bash -e
+
+CONF="/home/groups/local_config/etc/mongodb-backup/`hostname`"
+PRECMD="nice -n 19 ionice -c 3 time"
+
+if [ -f ${CONF} ]; then
+    . ${CONF}
+else
+    echo ">> No MongoDB backup configuration ${CONF}, aborting."
+    exit 0
+fi
+
+[ -z "${MONGO_BACKUP_PATH}" ] && export MONGO_BACKUP_PATH="/home/backup/mongodb"
+
+DBS=`mongo --quiet --eval 'db.adminCommand("listDatabases").databases.forEach(function(d){print(d.name)});' | grep -vE '^(local|test)$' | xargs`
+
+rm -rf ${MONGO_BACKUP_PATH}/*
+
+stop mms-agent || true
+
+# No need to lock/unlock databases to dump. Data could be incomplete, but not inconsistent?
+#mongodb-lock-databases.sh
+
+echo "> ----------------------------------------------------------------- backup `date`" >&2
+
+for DB in ${DBS}
+do
+	# repair the database first ?
+	#time mongo ${DB} --quiet --eval 'printjson(db.repairDatabase());'
+
+    ${PRECMD} mongodump --db ${DB} --out ${MONGO_BACKUP_PATH}
+done
+
+echo "> ------------------------------------------------------------- backup end `date`" >&2
+
+# No need to lock/unlock databases to dump. Data could be incomplete, but not inconsistent?
+#mongodb-unlock-databases.sh
+
+start mms-agent || restart mms-agent || true
+
+echo "> ------------------------------------------------------------------- sync `date`" >&2
+
+# We've got a local backup. Make it remote.
+# We use --copy-links in case the MongoDB files are symlinked to somewhere else.
+${PRECMD} rsync -av --password-file $PWD_FILE --copy-links $MONGO_BACKUP_PATH $SAVE_PATH
+
+echo "> --------------------------------------------------------------- sync end `date`" >&2
+

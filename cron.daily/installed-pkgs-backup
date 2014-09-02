@@ -1,0 +1,11 @@
+#!/bin/bash
+
+BACKUP_DIR="/home/backup"
+
+mkdir -p "${BACKUP_DIR}"
+
+if [ -x /usr/bin/dpkg ]; then
+
+	dpkg --get-selections > "${BACKUP_DIR}/dpkg_installed_packages.txt"
+
+fi

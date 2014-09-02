@@ -1,0 +1,7 @@
+
+# this will be the place where the specific configuration files
+# for each machine/network are checked out.
+private-data
+
+*~
+*.py[coe]

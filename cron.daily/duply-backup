@@ -1,0 +1,43 @@
+#!/bin/bash
+
+NICE="nice -n 19 ionice -c 3"
+DUPLY="${NICE} duply `hostname`"
+PID="/var/run/duply-backup.pid"
+
+if [[ ! -d /etc/duply/`hostname` ]]; then
+    echo ">> No duply configuration /etc/duply/`hostname`, aborting."
+    exit 0
+fi
+
+if [[ ! -x /usr/bin/duply ]]; then
+    apt-get install -qq --yes --force-yes duply ncftp ssh
+fi
+
+if [[ -f ${PID} ]]; then
+    echo " WARNING"
+    echo " WARNING: another backup instance is already running with PID `cat ${PID}`."
+    echo " WARNING: Delete ${PID} if it is not the case."
+    echo " WARNING: ABORTING BACKUP."
+    echo " WARNING"
+    exit 0
+fi
+
+echo $$ > ${PID}
+
+echo "> ----------------------------------------------------- CLEANUP unfinished"
+
+${DUPLY} cleanup --force
+
+echo "> ------------------------------------------------------ PURGE old backups"
+
+${DUPLY} purge --force
+
+echo "> ----------------------------------------------------------------- BACKUP"
+
+${DUPLY} backup
+
+echo "> ------------------------------------------------- PURGE old full backups"
+
+${DUPLY} purge-full --force
+
+rm -f ${PID}
