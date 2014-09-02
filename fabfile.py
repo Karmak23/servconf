@@ -3,6 +3,7 @@ from __future__ import print_function
 
 import os
 import datetime
+import itertools
 
 from fabric.api              import task, execute, run, local, sudo
 from fabric.contrib.files    import exists  # contains, append, sed
@@ -43,9 +44,9 @@ env.roledefs.update({
 
 LOCAL_HOME_DIR    = os.environ.get('HOME', os.path.expanduser('~'))
 REMOTE_CONFIG_DIR = os.environ.get('SERVCONF_INSTALL_DIR', '/home/servconf')
-MASTER_REPOSITORY = os.environ.get(SERVCONF_BIN_REPOSITORY,
+MASTER_REPOSITORY = os.environ.get('SERVCONF_BIN_REPOSITORY',
                                    'git+https://github.com/Karmak23/servconf')
-CONFIG_REPOSITORY = os.environ.get(SERVCONF_DATA_REPOSITORY, None)
+CONFIG_REPOSITORY = os.environ.get('SERVCONF_DATA_REPOSITORY', None)
 
 
 @task
@@ -127,7 +128,7 @@ def update_remote_configuration():
 @task
 def test():
     local('git upa')
-    execute(update_remote_configuration, hosts=(test_master, ))
+    execute(update_remote_configuration, hosts=(test_server, ))
 
 
 @task(aliases=('gcs', 'go', 'sync'))
@@ -146,7 +147,7 @@ def global_config_sync(do_test=False):
     else:
         all_others = servers[:]
 
-    if do_test and test_master in all_others:
-        all_others.remove(test_master)
+    if do_test and test_server in all_others:
+        all_others.remove(test_server)
 
     execute(update_remote_configuration, hosts=all_others)
