@@ -3,6 +3,13 @@
 #IPTABLES_ROOT="/home/servconf/iptables"
 IPTABLES_ROOT=`dirname $0`
 
+# keep in sync with ../install.sh
+SERVCONF_PATH=`dirname ${IPTABLES_ROOT}`
+export HOSTNAME=`hostname`
+export SHORT_HOSTNAME=`hostname -s`
+
+VARIABLES_FILE="${SERVCONF_PATH}/private-data/machines/${HOSTNAME}/firewall"
+
 MAIN_IFACE="eth0"
 HOSTNAME=`hostname`
 SHORT_HOSTNAME=`hostname -s`

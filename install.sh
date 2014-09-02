@@ -1,10 +1,12 @@
 #!/bin/bash
 
 USER=$1
-HOSTNAME=`hostname`
-SHORT_HOSTNAME=`hostname -s`
 
+# keep in sync with iptables/run.sh
 export SERVCONF_PATH=${PWD}
+export HOSTNAME=`hostname`
+export SHORT_HOSTNAME=`hostname -s`
+
 export SCRIPTS_BASE=${SERVCONF_PATH}/install-scripts
 export SERVCONF_COMMON=${SCRIPTS_BASE}/common.sh
 export HOST_INSTALL_FILE=${SERVCONF_PATH}/private-data/machines/${HOSTNAME}/install

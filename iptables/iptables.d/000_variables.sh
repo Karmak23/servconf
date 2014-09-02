@@ -7,10 +7,10 @@
 #
 
 
-if [ -e /etc/physconf/iptables/variables ]; then
+if [ -e ${VARIABLES_FILE} ]; then
 
-	. /etc/physconf/iptables/variables
+	. ${VARIABLES_FILE}
 
 fi
 
-echo -n "(IP: ${MAIN_IP}, open TCP: ${FRIENDS_PORTS}, open UDP: ${FRIENDS_PORTS_UDP}) "
+echo -n "(IP: ${MAIN_IP}, open TCP: ${FRIENDS_PORTS:-none}, open UDP: ${FRIENDS_PORTS_UDP:-none}) "
