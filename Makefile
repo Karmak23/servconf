@@ -2,10 +2,12 @@
 all: install
 
 git_update:
-	@echo "global-config update in $${PWD} for $${USER}"
+	@echo "servconf update in $${PWD} for $${USER}"
 	@sudo chown -R $${USER} .
 	@git reset --hard
 	@git up || git pull
+	@echo "private-data update in $${PWD} for $${USER}"
+	@[ -d private-data ] && (cd private-data; git reset --hard; git pull)
 
 # In case we need duply/*, it's -path {0}/duply/*
 install:

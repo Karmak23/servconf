@@ -113,15 +113,15 @@ def update_remote_configuration():
         #sudo('setfacl -m g:admins:rwx {0}'.format(c_dirname),
         #     warn_only=True)
 
-    with cd(c_dirname):
-        run('git clone {0} {1}'.format(MASTER_REPOSITORY, c_basename))
-
-        if CONFIG_REPOSITORY is not None:
-            with cd(c_basename):
-                run('git clone {0} {1}'.format(CONFIG_REPOSITORY,
-                    'private-data'))
+        with cd(c_dirname):
+            run('git clone {0} {1}'.format(MASTER_REPOSITORY, c_basename))
 
     with cd(REMOTE_CONFIG_DIR):
+        if CONFIG_REPOSITORY is not None and not exists(
+                    os.path.join(REMOTE_CONFIG_DIR, 'private-data')):
+            run('git clone {0} {1}'.format(CONFIG_REPOSITORY,
+                'private-data'))
+
         run("make remote_update")
 
 
