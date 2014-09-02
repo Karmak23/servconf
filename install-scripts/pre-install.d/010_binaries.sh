@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-#source ${GLOCONF_COMMON}
+#source ${SERVCONF_COMMON}
 
-for BINARY in `ls ${GLOCONF_PATH}/bin/*` `ls ${GLOCONF_PATH}/private-data/bin/*` `ls ${GLOCONF_PATH}/private-data/machines/${HOSTNAME}/bin/*`
+for BINARY in `ls ${SERVCONF_PATH}/bin/*` `ls ${SERVCONF_PATH}/private-data/bin/*` `ls ${SERVCONF_PATH}/private-data/machines/${HOSTNAME}/bin/*`
 do
     BASENAME=`basename ${BINARY}`
     rm -f /usr/local/bin/${BASENAME}

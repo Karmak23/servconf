@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-#source ${GLOCONF_COMMON}
+#source ${SERVCONF_COMMON}
 
 if [[ ${HOSTNAME} = "mail.licorn.org" ]]; then
 

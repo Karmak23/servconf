@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-#source ${GLOCONF_COMMON}
+#source ${SERVCONF_COMMON}
 
 if ! has_line 'remotessh' '/etc/group'; then
     echo -n "Creating remotessh group and adding ${USER} to it… "

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 (
-    cd ${GLOCONF_PATH}
+    cd ${SERVCONF_PATH}
 
     find .          -name '*.sh' -print0 | xargs -0 chmod u+x
     find cron.daily -type f      -print0 | xargs -0 chmod u+x

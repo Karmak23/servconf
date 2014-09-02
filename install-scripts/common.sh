@@ -35,4 +35,4 @@ function source_config_dir() {
 }
 
 # 'QUIET' could be anything: if $2 is not empty, the sourced names won't be displayed.
-source_config_dir ${GLOCONF_PATH}/install-scripts/common.d QUIET
+source_config_dir ${SERVCONF_PATH}/install-scripts/common.d QUIET

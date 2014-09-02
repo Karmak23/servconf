@@ -5,6 +5,6 @@ echo
 
 echo "----------------------------------------------------------- start Firewall"
 
-sudo ${GLOCONF_PATH}/iptables/run.sh
+sudo ${SERVCONF_PATH}/iptables/run.sh
 
 echo "------------------------------------------------------------- end Firewall"

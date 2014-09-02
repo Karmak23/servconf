@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#IPTABLES_ROOT="/home/groups/local_config/iptables"
+#IPTABLES_ROOT="/home/servconf/iptables"
 IPTABLES_ROOT=`dirname $0`
 
 MAIN_IFACE="eth0"

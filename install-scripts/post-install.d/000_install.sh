@@ -1,18 +1,17 @@
 #!/bin/bash -e
 
-#source ${GLOCONF_COMMON}
+#source ${SERVCONF_COMMON}
 
-SERVCONF_PATH=${GLOCONF_PATH}
-GROUP_PATH="${GLOCONF_PATH}/private-data"
-MACHINE_PATH="${GLOCONF_PATH}/private-data/machines/${HOSTNAME}"
+GROUP_PATH="${SERVCONF_PATH}/private-data"
+MACHINE_PATH="${SERVCONF_PATH}/private-data/machines/${HOSTNAME}"
 
 if [[ -d "${MACHINE_PATH}" ]]; then (
 
     while read PATHNAME; do
 
         BASENAME=`basename ${PATHNAME}`
-        SERVCONF_PREINST=${GLOCONF_PATH}/install-scripts/pre-${BASENAME}.sh
-        SERVCONF_POSTINST=${GLOCONF_PATH}/install-scripts/post-${BASENAME}.sh
+        SERVCONF_PREINST=${SERVCONF_PATH}/install-scripts/pre-${BASENAME}.sh
+        SERVCONF_POSTINST=${SERVCONF_PATH}/install-scripts/post-${BASENAME}.sh
         GROUP_PREINST=${GROUP_PATH}/install-scripts/pre-${BASENAME}.sh
         GROUP_POSTINST=${GROUP_PATH}/install-scripts/post-${BASENAME}.sh
         MACHINE_PREINST=${MACHINE_PATH}/install-scripts/pre-${BASENAME}.sh

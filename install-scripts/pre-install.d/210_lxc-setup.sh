@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-#source ${GLOCONF_COMMON}
+#source ${SERVCONF_COMMON}
 
 if [[ -x /usr/bin/lxc ]]; then
 
@@ -27,7 +27,7 @@ if [[ -x /usr/bin/lxc ]]; then
     fi
 
     if [[ ! -e /home/lxc/lxc-ubuntu-template+packages ]]; then
-        ln -sf ${GLOCONF_PATH}/etc/lxc/lxc-ubuntu-template+packages /home/lxc/
+        ln -sf ${SERVCONF_PATH}/etc/lxc/lxc-ubuntu-template+packages /home/lxc/
     fi
 
 fi

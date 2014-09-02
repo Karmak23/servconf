@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-#source ${GLOCONF_COMMON}
+#source ${SERVCONF_COMMON}
 
 
 # purge the previous munin installation.
@@ -25,7 +25,7 @@ else
     CARBON_HOST=37.187.135.222
 fi
 
-cat ${GLOCONF_PATH}/etc/collectd/collectd.conf.template \
+cat ${SERVCONF_PATH}/etc/collectd/collectd.conf.template \
     | sed -e "s/@@CARBON_HOST@@/${CARBON_HOST}/" > /etc/collectd/collectd.conf
 
 service collectd restart || service collectd start

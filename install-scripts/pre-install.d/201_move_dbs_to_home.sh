@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-#source ${GLOCONF_COMMON}
+#source ${SERVCONF_COMMON}
 
 # MOVE eveything to /home, this is nearly the only dir we backup
 for BLOCK in mongodb postgresql;postgresql-server
