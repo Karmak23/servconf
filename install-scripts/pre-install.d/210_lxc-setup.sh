@@ -2,7 +2,7 @@
 
 #source ${SERVCONF_COMMON}
 
-if [[ -x /usr/bin/lxc ]]; then
+if [[ -x /usr/bin/lxctl ]]; then
 
     if [[ -d /home/data ]]; then
 
@@ -30,8 +30,8 @@ if [[ -x /usr/bin/lxc ]]; then
         ln -sf ${SERVCONF_PATH}/etc/lxc/lxc-ubuntu-template+packages /home/lxc/
     fi
 
-fi
+    # Be sure the host nginx can walk into LXC's root,
+    # eg. to serve Django's static data from inside a LXC.
+    chmod u+rwx,g+rwx,o+rx-w /home/lxc /home/lxc/data /home/lxc/data/* /home/lxc/data/*/rootfs
 
-# Be sure the host nginx can walk into LXC's root,
-# eg. to serve Django's static data from inside a LXC.
-chmod u+rwx,g+rwx,o+rx-w /home/lxc /home/lxc/data /home/lxc/data/* /home/lxc/data/*/rootfs
+fi
