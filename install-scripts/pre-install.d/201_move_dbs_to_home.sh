@@ -13,7 +13,7 @@ do (
 
     cd /var/lib
 
-    if [[ ! -L ${DIRECTORY} ]]; then
+    if [[ -e ${DIRECTORY} && ! -L ${DIRECTORY} ]]; then
 
         stop ${SERVICE} || service ${SERVICE} stop || true
 
