@@ -21,8 +21,8 @@ You need [sparks](https://github.com/1flow/sparks), which will install [my patch
 
 - create an *environment* configuration file for your machine(s). You can group them to apply common bits of configuration. The minimal content is:
 
-	export SERVCONF_TEST_SERVER="test-server.example.com"
-	export SERVCONF_SERVERS="myserver.example.com"
+    export SERVCONF_TEST_SERVER="test-server.example.com"
+    export SERVCONF_SERVERS="myserver.example.com"
 
 - source your configuration file in your current shell.
 - deploy with `fab sync`.
