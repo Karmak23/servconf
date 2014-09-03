@@ -35,7 +35,7 @@ You need [sparks](https://github.com/1flow/sparks), which will install [my patch
 - source your configuration file in your current shell.
 - deploy with `fab sync`.
 
-I strongly advise you to have a test machine and run `fab test` on it before; because `servconf` can cut your SSH access if you don't configure it properly.
+I strongly advise you to have a test machine and run `fab test` on it before; because `servconf` can cut your SSH access if you misconfigure it properly (default configuration should keep you connected, and it didn't fail recently). If you have physical or rescue access, don't bother.
 
 ## Advanced usage & customization
 
