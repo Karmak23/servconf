@@ -11,6 +11,17 @@ if [[ -e /etc/cron.d/munin-node ]]; then
     rm -f /etc/cron.d/munin-to-statsd
 fi
 
+if [[ -e ${MACHINE_PATH}/collectd.templates.variables ]]; then
+	source ${MACHINE_PATH}/collectd.templates.variables
+
+elif [[ -e ${GROUP_PATH}/collectd.templates.variables ]]; then
+	source ${GROUP_PATH}/collectd.templates.variables
+
+else
+	exit 0
+fi
+
+# TODO: move the installation/ppa block to sparks.
 VERSION_INSTALLED=`dpkg -l | grep collectd | awk '{print $3}' | sort -u | grep 5.3`
 
 if [[ -z "${VERSION_INSTALLED}" ]]; then
@@ -18,12 +29,7 @@ if [[ -z "${VERSION_INSTALLED}" ]]; then
     apt-get update -qq --yes --force-yes
     apt-get install -qq collectd --yes --force-yes
 fi
-
-if [[ ${HOSTNAME} = "lafayette.licorn.org" ]]; then
-    CARBON_HOST=10.0.3.111
-else
-    CARBON_HOST=37.187.135.222
-fi
+# END TODO
 
 cat ${SERVCONF_PATH}/etc/collectd/collectd.conf.template \
     | sed -e "s/@@CARBON_HOST@@/${CARBON_HOST}/" > /etc/collectd/collectd.conf

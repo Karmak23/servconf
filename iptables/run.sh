@@ -1,18 +1,16 @@
 #!/bin/bash
 
+
+source /etc/servconf.conf
+
+# Could also be built from ${SERVCONF_PATH} but I find the later less
+# prone to needing review when paths change in the source repository.
 #IPTABLES_ROOT="/home/servconf/iptables"
 IPTABLES_ROOT=`dirname $0`
 
-# keep in sync with ../install.sh
-SERVCONF_PATH=`dirname ${IPTABLES_ROOT}`
-export HOSTNAME=`hostname`
-export SHORT_HOSTNAME=`hostname -s`
-
-FIREWALL_PATH="${SERVCONF_PATH}/private-data/machines/${HOSTNAME}/firewall"
+FIREWALL_PATH="${MACHINE_PATH}/firewall"
 
 MAIN_IFACE="eth0"
-HOSTNAME=`hostname`
-SHORT_HOSTNAME=`hostname -s`
 IP_CACHE="/var/cache/myip.txt"
 
 if [ -f $IP_CACHE ]; then

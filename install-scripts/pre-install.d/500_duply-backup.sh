@@ -2,10 +2,7 @@
 
 #source ${SERVCONF_COMMON}
 
-if [[ ! -L /etc/duply ]]; then
-    ln -sf ${SERVCONF_PATH}/duply /etc/duply
-fi
-
-if [[ -e /etc/duply/`hostname` ]]; then
-    ln -sf ${SERVCONF_PATH}/cron.daily/duply-backup /etc/cron.daily
-fi
+# be sure the copied data has restricted
+# permissions, else duply will refuse to run.
+chown -R root: /etc/duply
+chmod -R g-rwx,o-rwx /etc/duply
