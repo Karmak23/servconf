@@ -45,7 +45,7 @@ env.roledefs.update({
 LOCAL_HOME_DIR    = os.environ.get('HOME', os.path.expanduser('~'))
 REMOTE_CONFIG_DIR = os.environ.get('SERVCONF_INSTALL_DIR', '/home/servconf')
 MASTER_REPOSITORY = os.environ.get('SERVCONF_BIN_REPOSITORY',
-                                   'git+https://github.com/Karmak23/servconf')
+                                   'https://github.com/Karmak23/servconf')
 CONFIG_REPOSITORY = os.environ.get('SERVCONF_DATA_REPOSITORY', None)
 
 
