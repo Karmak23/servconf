@@ -2,7 +2,7 @@
 
 #source ${SERVCONF_COMMON}
 
-for BINARY in `ls ${SERVCONF_PATH}/bin/*` `ls ${GROUP_PATH}/bin/*` `ls ${MACHINE_PATH}/bin/*`
+for BINARY in `ls ${SERVCONF_PATH}/bin/* 2>/dev/null` `ls ${GROUP_PATH}/bin/* 2>/dev/null` `ls ${MACHINE_PATH}/bin/* 2>/dev/null`
 do
     BASENAME=`basename ${BINARY}`
     rm -f /usr/local/bin/${BASENAME}
