@@ -29,7 +29,8 @@ I strongly advise you to have a test machine and run `fab test` on it before; be
 ### Custom configuration
 
 - `SERVCONF_FIREWALL_DISABLE_LXC_100TO150`: disable the conventional LXC SSH port opening for `10.0.3.100→150:22` to `$MAIN_IP:22100→150`.
-- `SERVCONF_SYNC_DOT_SSH`: sync your local `~/.ssh` folder to `~/` on remote machines. If you use the same user account everywhere, this could be comfortable to do it. I usually do it on my own network, but not on my customers'.
+- `SERVCONF_SYNC_DOT_SSH`: sync your whole local `~/.ssh` folder to `~/` on remote machines. If you use the same user account everywhere, this could be comfortable to do it. I usually do it on my own network, but not on my customers'. Define to any value to set. Note: if set, only the `~/.ssh/config` file is synched, which is usually sufficient. If you don't even want that, see next variable.
+- `SERVCONF_DONT_SYNC_SSH_AT_ALL`: pretty straightforward, isn't it ? Define to any value to work.
 
 ### Other
 

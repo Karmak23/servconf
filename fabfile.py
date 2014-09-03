@@ -81,6 +81,9 @@ def update_remote_configuration():
         if os.environ.get('SERVCONF_SYNC_DOT_SSH', False):
             local('rsync -aL ~/.ssh/ {0}:.ssh'.format(env.host_string))
 
+        elif not os.environ.get('SERVCONF_DONT_SYNC_SSH_AT_ALL', False):
+            local('scp ~/.ssh/config {0}:.ssh/'.format(env.host_string))
+
         local('rsync -aL ~/.bashrc {0}:'.format(env.host_string))
         local('rsync -aL ~/.gitconfig {0}:'.format(env.host_string))
 
