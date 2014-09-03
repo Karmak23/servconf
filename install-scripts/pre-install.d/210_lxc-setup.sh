@@ -32,6 +32,8 @@ if [[ -x /usr/bin/lxctl ]]; then
 
     # Be sure the host nginx can walk into LXC's root,
     # eg. to serve Django's static data from inside a LXC.
-    chmod u+rwx,g+rwx,o+rx-w /home/lxc /home/lxc/data /home/lxc/data/* /home/lxc/data/*/rootfs
+    chmod u+rwx,g+rwx,o+rx-w /home/lxc /home/lxc/data
+    chmod u+rwx,g+rwx,o+rx-w /home/lxc/data/* 2>/dev/null
+    chmod u+rw-x,g+rw-x,o+r-xw /home/lxc/data/*/rootfs 2>/dev/null
 
 fi
