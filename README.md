@@ -1,10 +1,18 @@
 servconf
 ========
 
-Physical servers and containers (LXC) configuration/deployment tools for Ubuntu LTS & Debian.
+Physical servers and containers (LXC) configuration/deployment tools for Ubuntu LTS & Debian. Shell & python based. Minimalist design. Tested and used daily on Ubuntu LTS 12.04 and 14.04.
 
-Tested and daily used on Ubuntu LTS 12.04 and 14.04.
+Once your machine is up for the first time (eg. OS installation finished) and you have a bare user account on it, `servconf` will help you automate setting up useful things on a server:
+- a simple and easily customizable firewall (default open ports: 22, 80, 443),
+- a restricted SSH configuration (*pubkeys* and members of `remotessh` group only, `fail2ban` coming soon),
+- LXC tools for easy container management,
+- unattended-upgrades already configured and running,
+- `duply`, a remote encrypted/incremental backup solution (that you need to configure),
+- a full git/virtualenv/build environment,
+- and some other minor goodies.
 
+`servconf` also embeds already setup and up-to-date configuration files for various services, that you can choose to install or not on your machines. You can easily customize them by machine or groups of machines.
 
 # Documentation
 
@@ -26,15 +34,6 @@ You need [sparks](https://github.com/1flow/sparks), which will install [my patch
 
 - source your configuration file in your current shell.
 - deploy with `fab sync`.
-
-This will setup the machine with:
-- a default firewall (open ports: 22, 80, 443),
-- a restricted SSH configuration (pubkeys and members of `remotessh` group only),
-- LXC tools for easy container management,
-- unattended-upgrades already configured,
-- a full git/virtualenv/build environment,
-- `duply`, a remote encrypted/incremental backup solution (that you need to configure),
-- and some other goodies.
 
 I strongly advise you to have a test machine and run `fab test` on it before; because `servconf` can cut your SSH access if you don't configure it properly.
 
@@ -77,3 +76,7 @@ Explanations: to come.
 ### Other
 
 Define `SERVCONF_DEBUG` to any value to get debug messages during execution (there are not many, yet).
+
+# License
+
+GNU GPLv3.
