@@ -2,7 +2,5 @@
 
 #source ${SERVCONF_COMMON}
 
-# be sure the copied data has restricted
-# permissions, else duply will refuse to run.
-chown -R root: /etc/duply
-chmod -R g-rwx,o-rwx /etc/duply
+# clean old configuration in case it was a symlink, we now copy the dir.
+[[ -L /etc/duply ]] && rm -rf /etc/duply
