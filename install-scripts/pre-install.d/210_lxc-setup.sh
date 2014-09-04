@@ -2,7 +2,7 @@
 
 #source ${SERVCONF_COMMON}
 
-if [[ -x /usr/bin/lxctl ]]; then
+if [[ -x /usr/bin/lxc-start ]]; then
 
     if [[ -d /home/data ]]; then
 
