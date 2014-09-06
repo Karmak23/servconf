@@ -7,7 +7,7 @@ git_update:
 	@git reset --hard
 	@git up || git pull
 	@echo "private-data update in $${PWD} for $${USER}"
-	@[ -d private-data ] && (cd private-data; git reset --hard; git pull)
+	@if [ -d private-data ]; then (cd private-data; git reset --hard; git pull); fi
 
 # In case we need duply/*, it's -path {0}/duply/*
 install:
