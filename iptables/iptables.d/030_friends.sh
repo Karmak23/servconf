@@ -43,17 +43,17 @@ if [[ -n "${FRIENDS_TCP_PARTIAL}" ]]; then
 
     for PORT in ${FRIENDS_TCP_PARTIAL}; do
 
-        DST_VAR=FRIENDS_TCP_${PORT}_DST
-        DST=${!DST_VAR}
-        SRC_VAR=FRIENDS_TCP_${PORT}_SRC
-        SRC=${!SRC_VAR}
+        destination_temp_variable=FRIENDS_TCP_${PORT}_DST
+        destnations=${!destination_temp_variable}
+        source_temp_variable=FRIENDS_TCP_${PORT}_SRC
+        sources=${!source_temp_variable}
 
-        for DEST in ${DST}; do
+        for destination in ${destnations}; do
 
-            for SOURCE in ${SRC}; do
+            for source in ${sources}; do
 
                 iptables -A INPUT -p tcp -m tcp \
-                    -s ${SOURCE} -d ${DEST} \
+                    -s ${source} -d ${destination} \
                     --dport ${PORT} -j ACCEPT
 
             done
@@ -65,16 +65,16 @@ if [[ -n "${FRIENDS_UDP_PARTIAL}" ]]; then
 
     for PORT in ${FRIENDS_UDP_PARTIAL}; do
 
-        DST_VAR=FRIENDS_UDP_${PORT}_DST
-        DST=${!DST_VAR}
-        SRC_VAR=FRIENDS_UDP_${PORT}_SRC
-        SRC=${!SRC_VAR}
+        destination_temp_variable=FRIENDS_UDP_${PORT}_DST
+        destnations=${!destination_temp_variable}
+        source_temp_variable=FRIENDS_UDP_${PORT}_SRC
+        sources=${!source_temp_variable}
 
-        for DEST in ${DST}; do
+        for destination in ${destnations}; do
 
-            for SOURCE in ${SRC}; do
+            for source in ${sources}; do
 
-                iptables -A INPUT -p udp -s ${SOURCE} -d ${DEST} \
+                iptables -A INPUT -p udp -s ${source} -d ${destination} \
                     --dport ${PORT} -j ACCEPT
 
             done
