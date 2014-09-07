@@ -34,6 +34,7 @@ if [[ -x /usr/bin/lxc-start ]]; then
     # eg. to serve Django's static data from inside a LXC.
     chmod u+rwx,g+rwx,o+rx-w /home/lxc /home/lxc/data
     chmod u+rwx,g+rwx,o+rx-w /home/lxc/data/* 2>/dev/null
-    chmod u+rw-x,g+rw-x,o+r-xw /home/lxc/data/*/rootfs 2>/dev/null
+    chmod u+rwx,g+rwx,o+rx-w /home/lxc/data/*/rootfs 2>/dev/null
+    chmod u+rw-x,g+rw-x,o+r-xw /home/lxc/data/*/{config,fstab} 2>/dev/null
 
 fi
