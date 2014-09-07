@@ -39,7 +39,7 @@ fi
 # or specific destination(s) for specific ports,
 # or mix of these.
 
-if [[ -n "${FRIENDS_UDP_PARTIAL}" ]]; then
+if [[ -n "${FRIENDS_TCP_PARTIAL}" ]]; then
 
     for PORT in ${FRIENDS_TCP_PARTIAL}; do
 
