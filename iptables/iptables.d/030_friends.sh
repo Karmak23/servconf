@@ -46,7 +46,7 @@ if [[ -n "${FRIENDS_TCP_PARTIAL}" ]]; then
         DST_VAR=FRIENDS_TCP_${PORT}_DST
         DST=${!DST_VAR}
         SRC_VAR=FRIENDS_TCP_${PORT}_SRC
-        SRC=${!DST_VAR}
+        SRC=${!SRC_VAR}
 
         for DEST in ${DST}; do
 
@@ -68,7 +68,7 @@ if [[ -n "${FRIENDS_UDP_PARTIAL}" ]]; then
         DST_VAR=FRIENDS_UDP_${PORT}_DST
         DST=${!DST_VAR}
         SRC_VAR=FRIENDS_UDP_${PORT}_SRC
-        SRC=${!DST_VAR}
+        SRC=${!SRC_VAR}
 
         for DEST in ${DST}; do
 
