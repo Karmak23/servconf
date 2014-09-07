@@ -17,6 +17,9 @@ iptables -A INPUT -p icmp -j ACCEPT
 #	-d ${MAIN_IP} --dport 80 -j ACCEPT
 #iptables -A INPUT -p tcp -m tcp -i ${MAIN_IFACE} -s 0.0.0.0/0 \
 #	-d ${MAIN_IP} --dport 443 -j ACCEPT
+
+
+# We allow ALL destinations, to avoid locking fail-over IPs.
 iptables -A INPUT -p tcp -m tcp -i ${MAIN_IFACE} -s 0.0.0.0/0 \
 	-d 0.0.0.0/0 --dport 22 -j ACCEPT
 iptables -A INPUT -p tcp -m tcp -i ${MAIN_IFACE} -s 0.0.0.0/0 \
