@@ -13,7 +13,7 @@ if [ -e /etc/default/lxc ]; then
     #iptables -t nat -A POSTROUTING -o ${LXC_BRIDGE} -s ${MAIN_IP}     -j MASQUERADE
 
 	# LXCs can connect to our public IP, only via the bridge, though
-	iptables -A INPUT -p tcp -m tcp -i ${LXC_BRIDGE} -s ${LXC_NETWORK} -d ${MAIN_IP} -j ACCEPT
+	#iptables -A INPUT -p tcp -m tcp -i ${LXC_BRIDGE} -s ${LXC_NETWORK} -d ${MAIN_IP} -j ACCEPT
 
 	# LXCs can connect to anything
 	#iptables -A INPUT -i ${LXC_BRIDGE} -s ${LXC_NETWORK} -d 0.0.0.0/0 -j ACCEPT
