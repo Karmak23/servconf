@@ -9,7 +9,8 @@ if [ -f /etc/default/lxc -a -z "${SERVCONF_FIREWALL_DISABLE_LXC_100TO150}" ]; th
 
     for PORT in `seq 100 150`
     do
-        iptables -t nat -A PREROUTING -i ${MAIN_IFACE} -p tcp -d ${MAIN_IP} --dport 22${PORT} \
+        #iptables -A INPUT -i ${LXC_MAIN_IFACE} -p tcp -d ${MAIN_IP} --dport 22${PORT} -j ACCEPT
+        iptables -t nat -A PREROUTING -i ${LXC_MAIN_IFACE} -p tcp -d ${MAIN_IP} --dport 22${PORT} \
             -j DNAT --to-destination 10.0.3.${PORT}:22
     done
 fi

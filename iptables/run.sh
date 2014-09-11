@@ -11,6 +11,18 @@ IPTABLES_ROOT=`dirname $0`
 FIREWALL_PATH="${MACHINE_PATH}/firewall"
 
 MAIN_IFACE="eth0"
+
+if [[ `ifconfig br0 >/dev/null 2>&1` ]]; then
+	# we are on a physical host with a br0 interface.
+	# Is most probably has failover IPs. But still
+	# the private LXC network needs to go out. And this
+	# is via br0, not eth0. (tested 20140911).
+	LXC_MAIN_IFACE="br0"
+
+else
+	LXC_MAIN_IFACE="${MAIN_IFACE}"
+fi
+
 IP_CACHE="/var/cache/myip.txt"
 
 if [ -f $IP_CACHE ]; then
