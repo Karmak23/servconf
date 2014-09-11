@@ -10,6 +10,7 @@ if `which arptables >/dev/null 2>&1`; then
 		#arptables -P INPUT DROP
 		#arptables -P OUTPUT DROP
 		#arptables -P FORWARD DROP
+		true
 	fi
 else
 	echo "ARP tables is not installed, not touching ARP."
