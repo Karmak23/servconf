@@ -34,7 +34,7 @@ LOGGER.info(u'Servconf main servers: %s', u', '.join(servers))
 
 for key in os.environ.get('SERVCONF_GROUPS', '').split():
     groups[key] = os.environ['SERVCONF_GROUP_' + key].split()
-    LOGGER.info(u'Servconf group %s configured with machines %s',
+    LOGGER.info(u'Servconf group “%s” machines: %s',
                 key, u', '.join(groups[key]))
 
 all_machines = servers[:]
