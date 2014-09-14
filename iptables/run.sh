@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if ! `which iptables >/dev/null 2>&1`; then
+	if [[ -n "${SERVCONF_DEBUG}" ]]; then
+		echo "IPtables is not installed,aborting."
+	fi
+
+	exit 0
+fi
 
 source /etc/servconf.conf
 
@@ -32,13 +39,18 @@ else
     echo $MAIN_IP > $IP_CACHE
 fi
 
-if ! `which iptables >/dev/null 2>&1`; then
-	if [[ -n "${SERVCONF_DEBUG}" ]]; then
-		echo "IPtables is not installed,aborting."
-	fi
+#
+# HEADS UP: we source the variables here to allow the admin to override
+#  		    everything. This is dangerous, yet powerful and flexible.
+#
 
-	exit 0
+if [ -e ${FIREWALL_PATH}/variables ]; then
+
+	. ${FIREWALL_PATH}/variables
+
 fi
+
+echo -n "(IP: ${MAIN_IP}, open TCP: ${FRIENDS_PORTS:-none}, open UDP: ${FRIENDS_PORTS_UDP:-none}) "
 
 if [[ ${MAIN_IP} == 10.* || ${MAIN_IP} == 172.16.* || ${MAIN_IP} == 192.168.* ]]; then
 
