@@ -15,3 +15,9 @@ if `which arptables >/dev/null 2>&1`; then
 else
 	echo "ARP tables is not installed, not touching ARP."
 fi
+
+if [[ -n "${FIREWALL_OPEN}" ]]; then
+
+	echo "Firewall is OPEN in configuration. You are naked, bro!"
+	exit 0
+fi

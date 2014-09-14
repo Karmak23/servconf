@@ -58,12 +58,6 @@ if [[ ${MAIN_IP} == 10.* || ${MAIN_IP} == 172.16.* || ${MAIN_IP} == 192.168.* ]]
 	exit 0
 fi
 
-if [[ -n "${FIREWALL_OPEN}" ]]; then
-
-	echo "Firewall is set to OPEN in configuration. You are naked, bro!"
-	exit 0
-fi
-
 for script in ${IPTABLES_ROOT}/iptables.d/???_*.sh
 do
 	name=`basename ${script}`
