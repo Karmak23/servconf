@@ -2,6 +2,7 @@
 from __future__ import print_function
 
 import os
+import logging
 import datetime
 import itertools
 
@@ -23,15 +24,25 @@ import sparks.fabric.fabfile as tasks
 # import django tasks to hae them handy
 import sparks.django.fabfile as django # NOQA
 
+LOGGER = logging.getLogger(__name__)
+
 test_server  = os.environ.get('SERVCONF_TEST_SERVER')
 servers     = os.environ.get('SERVCONF_SERVERS', '').split()
 groups       = {}
 
+LOGGER.info(u'Servconf main servers: %s', u', '.join(servers))
+
 for key in os.environ.get('SERVCONF_GROUPS', '').split():
     groups[key] = os.environ['SERVCONF_GROUP_' + key].split()
+    LOGGER.info(u'Servconf group %s configured with machines %s',
+                key, u', '.join(groups[key]))
 
-all_machines = servers + list(itertools.chain(groups.values()))
+all_machines = servers[:]
 
+for group_list in groups.values():
+    all_machines += group_list[:]
+
+LOGGER.info(u'All servconf machines: %s', u', '.join(all_machines))
 # Get the already setup Fabric env.
 env = tasks.env
 #env.parallel = True
