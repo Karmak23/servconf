@@ -161,7 +161,7 @@ def global_config_sync(do_test=False, fast=False):
         # Allow to deploy manually on only one host at a time from CLI.
         all_others = [env.host_string]
     else:
-        all_others = servers[:]
+        all_others = all_machines
 
     if do_test and test_server in all_others:
         all_others.remove(test_server)
@@ -170,6 +170,16 @@ def global_config_sync(do_test=False, fast=False):
 
 
 @task(aliases=('fs', 'fastsync', 'fast'))
-def fast_config_sync():
+def fast_config_sync(do_test=False):
 
-    execute(update_remote_configuration, hosts=all_machines, fast=True)
+
+    if env.host_string:
+        # Allow to deploy manually on only one host at a time from CLI.
+        all_others = [env.host_string]
+    else:
+        all_others = all_machines
+
+    if do_test and test_server in all_others:
+        all_others.remove(test_server)
+
+    execute(update_remote_configuration, hosts=all_others, fast=True)
