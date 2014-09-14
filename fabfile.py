@@ -28,7 +28,7 @@ servers     = os.environ.get('SERVCONF_SERVERS', '').split()
 groups       = {}
 
 for key in os.environ.get('SERVCONF_GROUPS', '').split():
-    groups[key] = os.environ['SERVCONF_GROUP_' + key]
+    groups[key] = os.environ['SERVCONF_GROUP_' + key].split()
 
 all_machines = servers + list(itertools.chain(groups.values()))
 
