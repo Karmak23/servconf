@@ -15,7 +15,7 @@ source /etc/servconf.conf
 #IPTABLES_ROOT="/home/servconf/iptables"
 IPTABLES_ROOT=`dirname $0`
 
-FIREWALL_PATH="${MACHINE_PATH}/firewall"
+FIREWALL_PATHS="${GROUP_PATH}/firewall ${MACHINE_PATH}/firewall"
 
 MAIN_IFACE="eth0"
 
@@ -44,11 +44,11 @@ fi
 #  		    everything. This is dangerous, yet powerful and flexible.
 #
 
-if [ -e ${FIREWALL_PATH}/variables ]; then
-
-	. ${FIREWALL_PATH}/variables
-
-fi
+for FIREWALL_PATH in ${FIREWALL_PATHS}; do
+	if [[ -e ${FIREWALL_PATH}/variables ]]; then
+		. ${FIREWALL_PATH}/variables
+	fi
+done
 
 echo -n "(IP: ${MAIN_IP}, open TCP: ${FRIENDS_PORTS:-none}, open UDP: ${FRIENDS_PORTS_UDP:-none}) "
 
