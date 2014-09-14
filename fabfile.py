@@ -75,7 +75,7 @@ def sys_setup_server():
 
 
 @task
-def update_remote_configuration():
+def update_remote_configuration(fast=False):
 
     if not exists('Dropbox'):
         if os.environ.get('SERVCONF_SYNC_DOT_SSH', False):
@@ -90,41 +90,43 @@ def update_remote_configuration():
     # Be sure we can ssh from the remote machine. This is annoying.
     run('chmod 700 .ssh; chmod 600 .ssh/*', quiet=True)
 
-    tasks.sys_easy_sudo()
-    tasks.sys_admin_pkgs()      # we need setfacl
-    tasks.dev_mini()            # and git
+    if not fast:
+        tasks.sys_easy_sudo()
+        tasks.sys_admin_pkgs()      # we need setfacl
+        tasks.dev_mini()            # and git
 
-    sys_setup_server()
+        sys_setup_server()
 
-    # We use run() because sudo('echo $USER')
-    # gives 'root' (which is logical…)
-    run('sudo addgroup -quiet --system admins; '
-        'sudo adduser --quiet $USER admins')
+        # We use run() because sudo('echo $USER')
+        # gives 'root' (which is logical…)
+        run('sudo addgroup -quiet --system admins; '
+            'sudo adduser --quiet $USER admins')
 
-    sudo('mkdir -p /home/users /home/backup /home/archives; '
-         'chgrp admins /home/users /home/backup /home/archives; '
-         'chmod g+rwx /home/users /home/backup /home/archives')
-    #sudo('setfacl -m g:admins:rwx /home/users /home/backup /home/archives')
+        sudo('mkdir -p /home/users /home/backup /home/archives; '
+             'chgrp admins /home/users /home/backup /home/archives; '
+             'chmod g+rwx /home/users /home/backup /home/archives')
+        #sudo('setfacl -m g:admins:rwx /home/users /home/backup /home/archives')
 
-    c_dirname, c_basename = REMOTE_CONFIG_DIR.rsplit(os.sep, 1)
+        c_dirname, c_basename = REMOTE_CONFIG_DIR.rsplit(os.sep, 1)
 
-    if not exists(REMOTE_CONFIG_DIR):
-        if not exists(c_dirname):
-            sudo('mkdir "{0}"'.format(c_dirname))
+        if not exists(REMOTE_CONFIG_DIR):
+            if not exists(c_dirname):
+                sudo('mkdir "{0}"'.format(c_dirname))
 
-        sudo('chgrp admins {0}; chmod g+rwx {0}'.format(c_dirname))
-        #sudo('setfacl -m g:admins:rwx {0}'.format(c_dirname),
-        #     warn_only=True)
+            sudo('chgrp admins {0}; chmod g+rwx {0}'.format(c_dirname))
+            #sudo('setfacl -m g:admins:rwx {0}'.format(c_dirname),
+            #     warn_only=True)
 
-        with cd(c_dirname):
-            run('git clone {0} {1}'.format(MASTER_REPOSITORY, c_basename))
+            with cd(c_dirname):
+                run('git clone {0} {1}'.format(MASTER_REPOSITORY, c_basename))
+
+        with cd(REMOTE_CONFIG_DIR):
+            if CONFIG_REPOSITORY is not None and not exists(
+                        os.path.join(REMOTE_CONFIG_DIR, 'private-data')):
+                run('git clone {0} {1}'.format(CONFIG_REPOSITORY,
+                    'private-data'))
 
     with cd(REMOTE_CONFIG_DIR):
-        if CONFIG_REPOSITORY is not None and not exists(
-                    os.path.join(REMOTE_CONFIG_DIR, 'private-data')):
-            run('git clone {0} {1}'.format(CONFIG_REPOSITORY,
-                'private-data'))
-
         run("make remote_update")
 
 
@@ -135,7 +137,7 @@ def test():
 
 
 @task(aliases=('gcs', 'go', 'sync'))
-def global_config_sync(do_test=False):
+def global_config_sync(do_test=False, fast=False):
 
     if do_test:
         # First, test it on gurney, on which I have
@@ -153,4 +155,10 @@ def global_config_sync(do_test=False):
     if do_test and test_server in all_others:
         all_others.remove(test_server)
 
-    execute(update_remote_configuration, hosts=all_others)
+    execute(update_remote_configuration, hosts=all_others, fast=fast)
+
+
+@task(aliases=('fs', 'fastsync', 'fast'))
+def fast_config_sync():
+
+    execute(update_remote_configuration, hosts=all_machines, fast=True)
