@@ -20,9 +20,14 @@ if `which arptables >/dev/null 2>&1`; then
 	if [[ -z "${SERVCONF_FIREWALL_ARP_OPEN}" ]]; then
 
 		if [[ -n ${ARP_MANGLE_IPS} ]]; then
+
+			if [[ -z ${ARP_MANGLE_SRC} ]]; then
+				ARP_MANGLE_SRC=${MAIN_IP}
+			fi
+
 			for VIRTUAL_IP in ${ARP_MANGLE_IPS}; do
 				arptables -A INPUT -d ${VIRTUAL_IP} -j DROP
-				arptables -A OUTPUT -s ${VIRTUAL_IP} -j mangle --mangle-ip-s ${MAIN_IP}
+				arptables -A OUTPUT -s ${VIRTUAL_IP} -j mangle --mangle-ip-s ${ARP_MANGLE_SRC}
 			done
 		fi
 	fi
