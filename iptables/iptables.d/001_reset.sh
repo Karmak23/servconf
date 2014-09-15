@@ -25,7 +25,7 @@ if `which arptables >/dev/null 2>&1`; then
 				ARP_MANGLE_SRC=${MAIN_IP}
 			fi
 
-			if [[ ${ARP_MANGLE_SRC} = ${MAIN_IP} ]], then
+			if [[ ${ARP_MANGLE_SRC} == ${MAIN_IP} ]], then
 				continue
 			fi
 
