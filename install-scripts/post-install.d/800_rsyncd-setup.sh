@@ -12,7 +12,7 @@ function setup_rsync_defaults() {
 }
 
 
-if has_line etc/rsyncd. ${HOST_INSTALL_FILE}; then
+if has_line etc/rsyncd. ${MACHINE_INSTALL_FILE}; then
 
     mkdir -p /home/save
     chown -R rsync:admins /home/save

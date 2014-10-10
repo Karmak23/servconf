@@ -5,7 +5,7 @@
 # Shipyard should be installed elsewhere.
 #
 
-if has_line etc/init/shipyard ${HOST_INSTALL_FILE}; then
+if has_line etc/init/shipyard ${MACHINE_INSTALL_FILE}; then
 
 	if [[ -z "docker ps | grep shipyard" ]]; then
 
