@@ -31,7 +31,7 @@ function install_collectd() {
 
 if grep -E '^collectd$' ${MACHINE_DEINSTALL_FILE} >/dev/null 2>&1; then
 
-    sudo apt-get remove --purge collectd || true
+    sudo apt-get remove -q --purge collectd --yes --force-yes || true
 
     sudo killall -9 collectd || true
 
