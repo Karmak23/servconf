@@ -33,6 +33,10 @@ if grep -E '^collectd$' ${MACHINE_DEINSTALL_FILE} >/dev/null 2>&1; then
 
     sudo apt-get remove -q --purge collectd --yes --force-yes || true
 
+    sudo killall collectd || true
+    sleep 1
+    sudo killall collectdmon || true
+    sleep 1
     sudo killall -9 collectd || true
 
 else
