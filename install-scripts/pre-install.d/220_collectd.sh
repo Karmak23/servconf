@@ -29,14 +29,23 @@ function install_collectd() {
 
 }
 
-if [[ -e ${MACHINE_PATH}/collectd.templates.variables ]]; then
+if grep -E '^collectd$' ${MACHINE_DEINSTALL_FILE} >/dev/null 2>&1; then
 
-	source ${MACHINE_PATH}/collectd.templates.variables
-    install_collectd
+    sudo apt-get remove --purge collectd || true
 
-elif [[ -e ${GROUP_PATH}/collectd.templates.variables ]]; then
+    sudo killall -9 collectd || true
 
-	source ${GROUP_PATH}/collectd.templates.variables
-    install_collectd
+else
+
+    if [[ -e ${MACHINE_PATH}/collectd.templates.variables ]]; then
+
+    	source ${MACHINE_PATH}/collectd.templates.variables
+        install_collectd
+
+    elif [[ -e ${GROUP_PATH}/collectd.templates.variables ]]; then
+
+    	source ${GROUP_PATH}/collectd.templates.variables
+        install_collectd
+    fi
+
 fi
-
