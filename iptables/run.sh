@@ -50,7 +50,7 @@ for FIREWALL_PATH in ${FIREWALL_PATHS}; do
 	fi
 done
 
-echo -n "(IP: ${MAIN_IP}, open TCP: ${FRIENDS_PORTS:-none}, open UDP: ${FRIENDS_PORTS_UDP:-none}) "
+echo -n "(IP: ${MAIN_IP}, open friends TCP: ${FRIENDS_PORTS:-none}, open friends UDP: ${FRIENDS_PORTS_UDP:-none}, open TCP: ${OPEN_PORTS_TCP:-none}, open UDP: ${OPEN_PORTS_UDP:-none}) "
 
 if [[ ${MAIN_IP} == 10.* || ${MAIN_IP} == 172.16.* || ${MAIN_IP} == 192.168.* ]]; then
 
@@ -65,4 +65,3 @@ do
 	. "${script}"
 	echo "done."
 done
-
