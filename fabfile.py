@@ -4,10 +4,10 @@ from __future__ import print_function
 import os
 import logging
 import datetime
-import itertools
+# import itertools
 
-from fabric.api              import task, execute, run, local, sudo
-from fabric.contrib.files    import exists  # contains, append, sed
+from fabric.api import task, execute, run, local, sudo
+from fabric.contrib.files import exists  # contains, append, sed
 from fabric.context_managers import cd
 
 # Use this in case paramiko seems to go crazy. Trust me, it can do, especially
@@ -22,7 +22,7 @@ from fabric.context_managers import cd
 import sparks.fabric.fabfile as tasks
 
 # import django tasks to hae them handy
-import sparks.django.fabfile as django # NOQA
+import sparks.django.fabfile as django  # NOQA
 
 LOGGER = logging.getLogger(__name__)
 
@@ -45,7 +45,7 @@ for group_list in groups.values():
 LOGGER.info(u'All servconf machines: %s', u', '.join(all_machines))
 # Get the already setup Fabric env.
 env = tasks.env
-#env.parallel = True
+# env.parallel = True
 
 env.roledefs.update({
     'all-machines': all_machines,
@@ -81,7 +81,8 @@ def test_mail(email_address=None):
 def sys_setup_server():
 
     tasks.base(upgrade=False)
-    tasks.lxc_server() # this one will do nothing inside LXCs
+    # this one will do nothing inside LXCs
+    tasks.lxc_server()
     tasks.dev()
 
 
@@ -116,7 +117,8 @@ def update_remote_configuration(fast=False):
         sudo('mkdir -p /home/users /home/backup /home/archives; '
              'chgrp admins /home/users /home/backup /home/archives; '
              'chmod g+rwx /home/users /home/backup /home/archives')
-        #sudo('setfacl -m g:admins:rwx /home/users /home/backup /home/archives')
+        # sudo('setfacl -m g:admins:rwx /home/users
+        #   /home/backup /home/archives')
 
         c_dirname, c_basename = REMOTE_CONFIG_DIR.rsplit(os.sep, 1)
 
@@ -125,7 +127,7 @@ def update_remote_configuration(fast=False):
                 sudo('mkdir "{0}"'.format(c_dirname))
 
             sudo('chgrp admins {0}; chmod g+rwx {0}'.format(c_dirname))
-            #sudo('setfacl -m g:admins:rwx {0}'.format(c_dirname),
+            # sudo('setfacl -m g:admins:rwx {0}'.format(c_dirname),
             #     warn_only=True)
 
             with cd(c_dirname):
@@ -133,7 +135,7 @@ def update_remote_configuration(fast=False):
 
         with cd(REMOTE_CONFIG_DIR):
             if CONFIG_REPOSITORY is not None and not exists(
-                        os.path.join(REMOTE_CONFIG_DIR, 'private-data')):
+                    os.path.join(REMOTE_CONFIG_DIR, 'private-data')):
                 run('git clone {0} {1}'.format(CONFIG_REPOSITORY,
                     'private-data'))
 
@@ -171,7 +173,6 @@ def global_config_sync(do_test=False, fast=False):
 
 @task(aliases=('fs', 'fastsync', 'fast'))
 def fast_config_sync(do_test=False):
-
 
     if env.host_string:
         # Allow to deploy manually on only one host at a time from CLI.
