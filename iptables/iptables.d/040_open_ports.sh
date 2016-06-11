@@ -6,7 +6,6 @@ if [[ -n "${OPEN_PORTS_TCP}" ]]; then
     do
         iptables -A INPUT -p tcp -m tcp -s 0.0.0.0 -d ${MAIN_IP} \
                 --dport ${PORT} -j ACCEPT
-        done
     done
 fi
 
@@ -16,6 +15,5 @@ if [[ -n "${OPEN_PORTS_UDP}" ]]; then
     do
         iptables -A INPUT -p udp -s 0.0.0.0 -d ${MAIN_IP} \
                 --dport ${PORT} -j ACCEPT
-        done
     done
 fi
